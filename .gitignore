@@ -194,3 +194,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Don't check in the Eneter Messaging Framework - users will have to fetch it themselves
+EneterLibrary/Eneter.Messaging.Framework.dll
+EneterLibrary/Eneter.Messaging.Framework.XML

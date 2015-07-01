@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="eneterApp">
+	<head>
+		<link rel="stylesheet" href="./css/bootstrap.css" />
+		<link rel="stylesheet" href="./css/angular-csp.css" />
+	</head>
+	<body ng-controller="mainController">
+		<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="navbar-header">
+				<a href="#" class="navbar-brand">
+					Chrome Eneter Example
+				</a>
+			</div>
+		</nav>
+		<div class="container">
+			<div>
+				<button class="btn btn-default" ng-click="openConnection()">
+					Open Connection
+				</button>
+				<button class="btn btn-default" ng-click="subscribe()">
+					Subscribe
+				</button>
+				<button class="btn btn-default" ng-click="unsubscribe()">
+					Unsubscribe
+				</button>
+				<button class="btn btn-warning" ng-click="closeConnection()">
+					Close Connection
+				</button>
+			</div>
+		</div>
+		<div class="container">
+			CPU Usage: {{ cpuUsage }}
+		</div>
+		<script type="text/javascript" src="./js/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="./js/bootstrap.js"></script>
+		<script type="text/javascript" src="./js/angular.js"></script>
+		<script type="text/javascript" src="./js/eneter-messaging-6.5.0.js"></script>
+		<script type="text/javascript" src="index.js"></script>
+	</body>
+</html>
