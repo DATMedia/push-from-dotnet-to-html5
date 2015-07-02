@@ -1,0 +1,17 @@
+Program:Program "Program"
+DuplexBrokerFactory:DuplexBrokerFactory "DuplexBrokerFactory"
+WebSocketMessagingSystemFactory:WebSocketMessagingSystemFactory "WebSocketMessagingSystemFactory"
+/Broker:Broker "Broker"
+/DuplexInputChannel:DuplexInputChannel "DuplexInputChannel"
+
+Program:DuplexBrokerFactory.createBroker()
+DuplexBrokerFactory:Broker.new()
+Program:WebSocketMessagingSystemFactory.createDuplexInputChannel()
+WebSocketMessagingSystemFactory:DuplexInputChannel.new
+Program:Broker.attachDuplexInputChannel()
+Program:>Program.sendMonitoringMessages()
+Program:Broker.sendMessage("MyCpuUpdate", message)
+Program:_
+Program[0,0]:Broker.DetachDuplexInputChannel()
+
+
