@@ -6,3 +6,5 @@ This is a variation of the example published by Ondrej Uzovic here: http://enete
 It demonstrates how a chrome application can subscribe to push notifications from the server using the eneter framework.
 
 To build and run this, you will need to download the eneter library, as outlined in the blog entry
+
+![](https://raw.githubusercontent.com/DATMedia/push-from-dotnet-to-html5/master/Design/SequenceDiagram.gif)
