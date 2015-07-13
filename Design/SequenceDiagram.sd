@@ -6,7 +6,9 @@ WebSocketMessagingSystemFactory:WebSocketMessagingSystemFactory "WebSocketMessag
 SingleThreadExecutor:SingleThreadExecutor[t] "SingleThreadExecutor"
 /WebSocket:WebSocket WebSocket
 /WebSocketDuplexOutputChannel:WebSocketDuplexOutputChannel "WebSocketDuplexOutputChannel"
+/EneterProtocolFormatter:EneterProtocolFormatter "EneterProtocolFormatter"
 /DuplexBrokerClient:DuplexBrokerClient "DuplexBrokerClient"
+/BrokerCustomSerializer:BrokerCustomSerializer "BrokerCustomSerializer"
 /MainController:MainController "MainController"
 AngularFramework:AngularFramework "AngularFramework"
 JavascriptEventLoop:JavascriptEventLoop[t] "JavascriptEventLoop"
@@ -21,12 +23,15 @@ AngularFramework:MainController.new()
 JavascriptEventLoop:AngularFramework.handleEvent()
 AngularFramework:MainController.openConnection
 MainController:DuplexBrokerClient.new()
+DuplexBrokerClient:BrokerCustomSerializer.new()
 MainController:WebSocketDuplexOutputChannel.new()
+WebSocketDuplexOutputChannel:EneterProtocolFormatter.new()
 MainController:DuplexBrokerClient.attachDuplexOutputChannel()
 DuplexBrokerClient:WebSocketDuplexOutputChannel.openConnection()
 WebSocketDuplexOutputChannel:WebSocket.new()
 JavascriptEventLoop:WebSocket.handleEvent()
 WebSocket:WebSocketDuplexOutputChannel.onopen
+WebSocketDuplexOutputChannel:EneterProtocolFormatter.encodeOpenConnectionMessage
 WebSocketDuplexOutputChannel:WebSocket.send(openConnection)
 SingleThreadExecutor:Program.ResponseReceiverConnected
 SingleThreadExecutor:_
@@ -36,7 +41,9 @@ AngularFramework:MainController.subscribe()
 MainController:DuplexBrokerClient.subscribe("MyCpuUpdate")
 DuplexBrokerClient:DuplexBrokerClient.getAttachedDuplexOutputChannel
 DuplexBrokerClient[1]:DuplexBrokerClient.send
+DuplexBrokerClient:BrokerCustomSerializer.serialize
 DuplexBrokerClient:WebSocketDuplexOutputChannel.sendMessage()
+WebSocketDuplexOutputChannel:EneterProtocolFormatter.encodeRequestMessage()
 WebSocketDuplexOutputChannel:WebSocket.send()
 JavascriptEventLoop:_
 Program:>Program.sendMonitoringMessages()
@@ -45,8 +52,19 @@ Program:stop
 Program:_
 JavascriptEventLoop:WebSocket._
 WebSocket:WebSocketDuplexOutputChannel.onmessage
-WebSocketDuplexOutputChannel:WebSocketDuplexOutputChannel._onResponseMessageReceived
-WebSocketDuplexOutputChannel:MainController.onBrokerMessageReceived
+WebSocketDuplexOutputChannel:EneterProtocolFormatter.decodeMessage()
+WebSocketDuplexOutputChannel:DuplexBrokerClient._onResponseMessageReceived
+DuplexBrokerClient:BrokerCustomSerializer.deserialize
+DuplexBrokerClient:MainController.onBrokerMessageReceived
+JavascriptEventLoop:AngularFramework.handleEvent()
+AngularFramework:MainController.unsubscribe()
+MainController:DuplexBrokerClient.unsubscribe()
+DuplexBrokerClient:DuplexBrokerClient.getAttachedDuplexOutputChannel()
+DuplexBrokerClient[1]:DuplexBrokerClient.send()
+DuplexBrokerClient:BrokerCustomSerializer.serialize()
+DuplexBrokerClient:WebSocketDuplexOutputChannel.sendMessage()
+WebSocketDuplexOutputChannel:EneterProtocolFormatter.encodeRequestMessage
+WebSocketDuplexOutputChannel:WebSocket.send()
 JavascriptEventLoop:_
 Program[0,0]:Broker.DetachDuplexInputChannel()
 
