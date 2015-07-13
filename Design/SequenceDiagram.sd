@@ -1,17 +1,53 @@
-Program:Program "Program"
+Program:Program[t] "Program"
 DuplexBrokerFactory:DuplexBrokerFactory "DuplexBrokerFactory"
 WebSocketMessagingSystemFactory:WebSocketMessagingSystemFactory "WebSocketMessagingSystemFactory"
 /Broker:Broker "Broker"
 /DuplexInputChannel:DuplexInputChannel "DuplexInputChannel"
+SingleThreadExecutor:SingleThreadExecutor[t] "SingleThreadExecutor"
+/WebSocket:WebSocket WebSocket
+/WebSocketDuplexOutputChannel:WebSocketDuplexOutputChannel "WebSocketDuplexOutputChannel"
+/DuplexBrokerClient:DuplexBrokerClient "DuplexBrokerClient"
+/MainController:MainController "MainController"
+AngularFramework:AngularFramework "AngularFramework"
+JavascriptEventLoop:JavascriptEventLoop[t] "JavascriptEventLoop"
 
 Program:DuplexBrokerFactory.createBroker()
 DuplexBrokerFactory:Broker.new()
 Program:WebSocketMessagingSystemFactory.createDuplexInputChannel()
 WebSocketMessagingSystemFactory:DuplexInputChannel.new
 Program:Broker.attachDuplexInputChannel()
+JavascriptEventLoop:AngularFramework.init()
+AngularFramework:MainController.new()
+JavascriptEventLoop:AngularFramework.handleEvent()
+AngularFramework:MainController.openConnection
+MainController:DuplexBrokerClient.new()
+MainController:WebSocketDuplexOutputChannel.new()
+MainController:DuplexBrokerClient.attachDuplexOutputChannel()
+DuplexBrokerClient:WebSocketDuplexOutputChannel.openConnection()
+WebSocketDuplexOutputChannel:WebSocket.new()
+JavascriptEventLoop:WebSocket.handleEvent()
+WebSocket:WebSocketDuplexOutputChannel.onopen
+WebSocketDuplexOutputChannel:WebSocket.send(openConnection)
+SingleThreadExecutor:Program.ResponseReceiverConnected
+SingleThreadExecutor:_
+WebSocketDuplexOutputChannel:WebSocketDuplexOutputChannel.onConnectionOpened()
+JavascriptEventLoop:AngularFramework.handleEvent()
+AngularFramework:MainController.subscribe()
+MainController:DuplexBrokerClient.subscribe("MyCpuUpdate")
+DuplexBrokerClient:DuplexBrokerClient.getAttachedDuplexOutputChannel
+DuplexBrokerClient[1]:DuplexBrokerClient.send
+DuplexBrokerClient:WebSocketDuplexOutputChannel.sendMessage()
+WebSocketDuplexOutputChannel:WebSocket.send()
+JavascriptEventLoop:_
 Program:>Program.sendMonitoringMessages()
 Program:Broker.sendMessage("MyCpuUpdate", message)
+Program:stop
 Program:_
+JavascriptEventLoop:WebSocket._
+WebSocket:WebSocketDuplexOutputChannel.onmessage
+WebSocketDuplexOutputChannel:WebSocketDuplexOutputChannel._onResponseMessageReceived
+WebSocketDuplexOutputChannel:MainController.onBrokerMessageReceived
+JavascriptEventLoop:_
 Program[0,0]:Broker.DetachDuplexInputChannel()
 
 
